@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/axios/dist/axios.js"></script>
+
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h1>vue-resource的插件使用讲解
+        </h1>
+        <button class="btn btn-primary" v-on:click="get"> Get 请求</button>
+        <button class="btn btn-primary" @click="post"> post 请求</button>
+        <button class="btn btn-primary" @click="jsonp"> jsonp 请求</button>
+        <div>
+            <span>{{msg}}</span>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                msg: ""
+            },
+            mounted: function () {
+                Vue.http.interceptors.push(function (request, next) {
+                    console.log("request init");
+                    next(function name(params) {
+
+                    })
+                })
+            },
+            methods: {
+                get: function () {
+                    this.$http.get("package.json", {
+                        params: {
+                            userid: "101",
+                        },
+                        headers: {
+                            tockern: "abcd"
+                        }
+                    }).then(res => {
+                        this.msg = res.data
+                    }, error => {
+                        this.msg = error;
+                    })
+                },
+                post: function () {
+                    this.$http.post("package.json", {
+                        userid='102'
+                    }, {
+                            headers: {
+                                access_tocker: "abc123"
+                            }
+                        }).then(function (res) {
+                            this.msg = res.data
+                        })
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
